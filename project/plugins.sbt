@@ -11,4 +11,5 @@
 //
 //addSbtPlugin("com.owtelse.sbt" % "sbt-web-s3" % "0.2.2-20150812074940-deac20e")
 
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.16")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.20")
+//addSbtPlugin("de.surfice" % "sbt-node" % "0.0.4")

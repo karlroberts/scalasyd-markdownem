@@ -1,5 +1,6 @@
 package parser
 
+import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 
 
@@ -24,6 +25,7 @@ case class Parser[A](run: String => ParseState[A]) {
     * that error
     */
   def flatMap[B](f: A => Parser[B]): Parser[B] =
+
     Parser(input => run(input) match {
       case ParseOk(rest, a) =>
         f(a).run(rest)
@@ -42,6 +44,7 @@ case class Parser[A](run: String => ParseState[A]) {
     */
   def >>>[B](parser: => Parser[B]): Parser[B] =
     flatMap(_ => parser)
+
 
   /**
     * combinator, both parsers must succeed, but ignore the result of the first.
@@ -77,6 +80,28 @@ case class Parser[A](run: String => ParseState[A]) {
       case ParseKo(_) =>
         f.run(input)
     })
+
+  /** run a parser that generates a String then use that String as my own input.
+    * Useful when a preexisting parser can be used to parse a sub expression
+    * @param parser
+    * @return
+    */
+  def use(parser: Parser[String]): Parser[A]  =
+    Parser(input => parser.run(input) match {
+      case ParseOk(rest, a) => this.run(a) match {
+        case ParseOk(i, v) => ParseOk(rest,v)
+        case ParseKo(m) => ParseKo(m)
+      }
+      case ParseKo(m) => ParseKo(m)
+    })
+
+  def usemap[B](parser: Parser[B])(f: B => String) = use(parser map f)
+
+  /**
+    * Alias for usemap
+    */
+  def <<=[B](parser: Parser[B])(f: B => String): Parser[A] = usemap(parser)(f)
+
 }
 
 object Parser {
@@ -134,7 +159,7 @@ object Parser {
       if (pred(c))
         value(c)
       else
-        failed("Input failed to match predicate."))
+        failed(s"Input failed to match predicate.: char= $c  pred= $pred"))
 
 
   /**
@@ -149,6 +174,19 @@ object Parser {
 
   def isNot(char: Char): Parser[Char] =
     satisfy(_ != char)
+
+  /**
+    * return a parser that prodces a character if the char matches a char in the chars list
+    * @param chars
+    * @return
+    */
+  def isIn(chars: List[Char]): Parser[Char] =
+    satisfy(chars.toSet(_))
+
+
+  def isNotIn(chars: List[Char]): Parser[Char] =
+    satisfy(!chars.toSet(_))
+
 
   /**
     * Return a parser that produces a character between '0' and '9'
@@ -243,6 +281,28 @@ object Parser {
     })
   }
 
+  def notKeyword(wordToNotFind: String): Parser[String] = {
+    Parser(input => {
+      val parsed: ParseState[String] = word.run(input)
+      parsed match {
+        case ParseKo(m) => ParseKo(s"Not a word, expected $wordToNotFind, error message: $m")
+        case ParseOk(i, v) => if(wordToNotFind != v) ParseOk(i,v) else ParseKo(s"Oh no we matched keyword match, expected to find $wordToNotFind, actual: $v")
+      }
+    })
+  }
+
+  def opt[A](parser: Parser[A]): Parser[Option[A]] = {
+    Parser(input => {
+      val parsed: ParseState[A] = parser.run(input)
+      parsed match {
+        case ParseKo(m) => ParseOk(input, None)
+        case ParseOk(i, v) => ParseOk(i, Some(v))
+      }
+    })
+  }
+
+
+
 
   def runOn[A](parser: Parser[A], data: List[String]): Either[String, List[A]] =
     ParseState.sequence(data.map(parser.run)) match {
@@ -251,6 +311,31 @@ object Parser {
       case ParseOk(_, a) =>
         Right(a)
     }
+
+  /**
+    * parse and if OK and input remaining keep parsing
+    * @param parser
+    * @param data
+    * @tparam A
+    */
+  def parseAll[A](parser: Parser[A], data: String): Either[String, List[A]] = {
+
+    @tailrec
+    def loop(data: String, ret: Either[String, List[A]]): Either[String, List[A]] = {
+      (data, ret) match {
+        case ("", _) => ret
+        case(_, Left(m)) => ret
+        case(d, Right(as)) =>
+          parser.run (d) match {
+            case ParseKo (oops) => /*println(s"oops wtf? data '$data'  :: ret = $ret");*/ loop (data,Left (oops))
+            case ParseOk (i, a) => /*println(s"hehhehe  data '$data'  :: ret = $ret"); */loop (i, ret.flatMap (as => Right (as :+ a) ) )
+          }
+      }
+    }
+    loop(data, Right(Nil))
+  }
+
+
 }
 
 case class ParseOk[A](input: String, value: A) extends ParseState[A]

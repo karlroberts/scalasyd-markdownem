@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>The Scala.js Tutorial</title>
+</head>
+<body>
+<!--script type="text/javascript" src="./target/scala-2.12/markdownem-fastopt.js"></script>-->
+<script type="text/javascript" src="./target/scala-2.12/markdownem-opt.js"></script>
+<!-- Include Scala.js compiled code -->
+
+<section id="markdown">
+## this is h2
+
+* list item 1
+  - li nested 1
+  - li nested 2
+* list item 2
+
+
+# h1 Heading 8-)
+## h2 Heading
+### h3 Heading
+#### h4 Heading
+##### h5 Heading
+###### h6 Heading
+## Emphasis
+**This is bold text**
+__This is bold text__
+*This is italic text*
+_This is italic text_
+~~Strikethrough~~
+## Blockquotes
+
+> Blockquotes can also be nested
+> more block
+
+## Lists
+Unordered
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+- Marker character change forces new list start:
+* Ac tristique libero volutpat at
++ Facilisis in pretium nisl aliquet
+- Nulla volutpat aliquam velit
++ Very easy!
+Ordered
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+1. You can use sequential numbers...
+1. ...or keep all the numbers as `1.`
+Start numbering with offset:
+57. foo
+1. bar
+Mixed Nested embedded md
+1. item 1
+2. item 2 is **bold**
+  * nested unordered 1
+  * nested _italic_ 2
+    1. nested again ordered 1
+    2. nested again 2
+3. [a link](http://foo.bar)
+## Code
+Inline `code`
+Indented code
+// Some comments
+line 1 of code
+line 2 of code
+line 3 of code
+## Links
+[link text](http://dev.nodeca.com)
+[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+## Images
+![Minion](https://octodex.github.com/images/minion.png)
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+
+Like links, Images also have a footnote style syntax
+
+![pi cat][picat]
+
+With a reference later in the document defining the URL location:
+
+[picat] https://octodex.github.com/images/privateinvestocat.jpg
+
+## Plugins
+The killer feature of `markdown-it` is very effective support of
+[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
+### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
+see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
+This is HTML abbreviation example.
+
+
+</section>
+
+
+<script type="text/javascript">
+
+function replaceContentWithMD(elementId) {
+  element = document.getElementById(elementId);
+  theContent = element.innerHTML;
+  element.innerHTML = mdmagic(theContent);
+  //alert(mdmagic("## this is h2"));
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+replaceContentWithMD("markdown");
+});
+</script>
+</body>
+</html>
