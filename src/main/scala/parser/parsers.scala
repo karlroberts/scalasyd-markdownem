@@ -158,8 +158,10 @@ object Parser {
     character.flatMap(c =>
       if (pred(c))
         value(c)
-      else
-        failed(s"Input failed to match predicate.: char= $c  pred= $pred"))
+      else {
+        val hex = if(c.isWhitespace) c.toLong.toHexString else ""+c
+        failed(s"Input failed to match predicate.: instead saw char '$hex'")
+      })
 
 
   /**

@@ -76,16 +76,16 @@ trait UliFixtures {
 
 
   val ul1_in = "* This is a simple **uli** line"
-  var ul1_val = uli(List(rawHtml("This is a simple "), Bold(List(rawHtml("uli"))), rawHtml(" line")), 0)
+  var ul1_val = uli(List(RawHtml("This is a simple "), Bold(List(RawHtml("uli"))), RawHtml(" line")), 0)
 
   val ul2_in = "  - This is a simple **uli ~~strikeme~~** line with more stuff in bold"
-  var ul2_val = uli(List(rawHtml("This is a simple "), Bold(List(rawHtml("uli "), Strikethrough(List(rawHtml("strikeme"))) )), rawHtml(" line with more stuff in bold")), 2)
+  var ul2_val = uli(List(RawHtml("This is a simple "), Bold(List(RawHtml("uli "), Strikethrough(List(RawHtml("strikeme"))) )), RawHtml(" line with more stuff in bold")), 2)
 
   val ul3_in = "  -            This is a simple **uli** line"
-  var ul3_val = uli(List(rawHtml("This is a simple "), Bold(List(rawHtml("uli"))), rawHtml(" line")), 2)
+  var ul3_val = uli(List(RawHtml("This is a simple "), Bold(List(RawHtml("uli"))), RawHtml(" line")), 2)
 
   val ul_nl_in = "* This is a simple **uli** line with a newline char"
-  val ul_nl_val = uli(List(rawHtml("This is a simple "), Bold(List(rawHtml("uli"))), rawHtml(" line with a newline char")), 0)
+  val ul_nl_val = uli(List(RawHtml("This is a simple "), Bold(List(RawHtml("uli"))), RawHtml(" line with a newline char")), 0)
 
 
   val ul_empty_in = "-          \n"
@@ -162,19 +162,19 @@ trait OliTests extends Specification with MustMatchers with OliFixtures {
 trait OliFixtures {
 
   val ol1_in = "1. This is a simple **oli** line"
-  var ol1_val = oli(List(rawHtml("This is a simple "), Bold(List(rawHtml("oli"))), rawHtml(" line")), 0)
+  var ol1_val = oli(List(RawHtml("This is a simple "), Bold(List(RawHtml("oli"))), RawHtml(" line")), 0)
 
   val ol2_in = "  1. This is a simple **oli** line"
-  var ol2_val = oli(List(rawHtml("This is a simple "), Bold(List(rawHtml("oli"))), rawHtml(" line")), 2)
+  var ol2_val = oli(List(RawHtml("This is a simple "), Bold(List(RawHtml("oli"))), RawHtml(" line")), 2)
 
   val ol3_in = "  3.          This is a simple **oli** line"
-  var ol3_val = oli(List(rawHtml("This is a simple "), Bold(List(rawHtml("oli"))), rawHtml(" line")), 2)
+  var ol3_val = oli(List(RawHtml("This is a simple "), Bold(List(RawHtml("oli"))), RawHtml(" line")), 2)
 
   val ol_nl_in = "2. This is a simple **oli** line with a newline char\n"
-  val ol_nl_val = oli(List(rawHtml("This is a simple "), Bold(List(rawHtml("oli"))), rawHtml(" line with a newline char")), 0)
+  val ol_nl_val = oli(List(RawHtml("This is a simple "), Bold(List(RawHtml("oli"))), RawHtml(" line with a newline char")), 0)
 
   val o1_ns_in = "4.This is a simple **ol** line with no spaces after the 1. prefix"
-  val o1_ns_val = oli(List(rawHtml("This is a simple **ol** line with no spaces after the 1. prefix")),0)
+  val o1_ns_val = oli(List(RawHtml("This is a simple **ol** line with no spaces after the 1. prefix")),0)
 
   val ol_empty_in = "1.          \n"
 
@@ -213,6 +213,7 @@ trait LiTests extends Specification with MustMatchers with LiFixtures {
     }
 
     r1 && r2
+
   }
 
   def e2 = {
@@ -268,12 +269,12 @@ trait LiFixtures {
   import Tree._
 
   val l1_in = "* this is unordered"
-  val l1_val = List(uli(List(rawHtml("this is unordered")), 0))
-  val l1_tree =  MdForest(List( Leaf(Uli(List(rawHtml("this is unordered")), 0), 0) ))
+  val l1_val = List(uli(List(RawHtml("this is unordered")), 0))
+  val l1_tree =  MdForest(List(Branch(List(Leaf(Uli(List(RawHtml("this is unordered")),0),0)),0)))
 
   val l2_in = "1. this is ordered"
-  val l2_val = List(oli(List(rawHtml("this is ordered")), 0))
-  val l2_tree = MdForest(List( Leaf(Oli(List(rawHtml("this is ordered")), 0), 0) ))
+  val l2_val = List(oli(List(RawHtml("this is ordered")), 0))
+  val l2_tree = MdForest(List(Branch(List(Leaf(Oli(List(RawHtml("this is ordered")),0),0)),0)))
 
 
   val l3_in =
@@ -281,16 +282,16 @@ trait LiFixtures {
       |* multi line uol 2
     """.stripMargin
 
-  val l3_val = List(uli(List(rawHtml("multi line uol 1")),0), uli(List(rawHtml("multi line uol 2")),0))
-  val l3_tree = MdForest( List( Branch(List( Leaf(Uli(List(rawHtml("multi line uol 1")),0), 0), Leaf(Uli(List(rawHtml("multi line uol 2")),0),0) ), 0) ))
+  val l3_val = List(uli(List(RawHtml("multi line uol 1")),0), uli(List(RawHtml("multi line uol 2")),0))
+  val l3_tree = MdForest( List( Branch(List( Leaf(Uli(List(RawHtml("multi line uol 1")),0), 0), Leaf(Uli(List(RawHtml("multi line uol 2")),0),0) ), 0) ))
 
   val l4_in =
   """1. multi line oli 1
     |2. multi line oli 2
   """.stripMargin
 
-  val l4_val = List(oli(List(rawHtml("multi line oli 1")),0), oli(List(rawHtml("multi line oli 2")),0))
-  val l4_tree = MdForest( List( Branch(List( Leaf(Oli(List(rawHtml("multi line oli 1")),0), 0), Leaf(Oli(List(rawHtml("multi line oli 2")),0),0) ), 0) ))
+  val l4_val = List(oli(List(RawHtml("multi line oli 1")),0), oli(List(RawHtml("multi line oli 2")),0))
+  val l4_tree = MdForest( List( Branch(List( Leaf(Oli(List(RawHtml("multi line oli 1")),0), 0), Leaf(Oli(List(RawHtml("multi line oli 2")),0),0) ), 0) ))
 
 
   val l5_in =
@@ -298,8 +299,8 @@ trait LiFixtures {
       |2. oli 2
     """.stripMargin
 
-  val l5_val = List(uli(List(rawHtml("uli 1")),0), oli(List(rawHtml("oli 2")),0))
-  val l5_tree = MdForest(List(Leaf(Uli(List(rawHtml("uli 1")),0),0), Leaf(Oli(List(rawHtml("oli 2")),0),0)))
+  val l5_val = List(uli(List(RawHtml("uli 1")),0), oli(List(RawHtml("oli 2")),0))
+  val l5_tree = MdForest(List(Branch(List(Leaf(Uli(List(RawHtml("uli 1")),0),0)),0), Branch(List(Leaf(Oli(List(RawHtml("oli 2")),0),0)),0)))
 
   val l6_in =
     """* uli 1
@@ -311,7 +312,7 @@ trait LiFixtures {
       |* uli 3
     """.stripMargin
 
-  val l6_val = List(uli(List(rawHtml("uli 1")),0), oli(List(rawHtml("oli 2")),2), oli(List(rawHtml("oli 3")),2), uli(List(rawHtml("uli 2")),0), oli(List(rawHtml("oli 4")), 4), oli(List(rawHtml("oli 5")), 4), uli(List(rawHtml("uli 3")),0))
+  val l6_val = List(uli(List(RawHtml("uli 1")),0), oli(List(RawHtml("oli 2")),2), oli(List(RawHtml("oli 3")),2), uli(List(RawHtml("uli 2")),0), oli(List(RawHtml("oli 4")), 4), oli(List(RawHtml("oli 5")), 4), uli(List(RawHtml("uli 3")),0))
   val l6_tree = List()
 
 
@@ -321,7 +322,7 @@ trait LiFixtures {
       |* uli 2
     """.stripMargin
 
-  val l7_tree = MdForest(List( Branch(List( Leaf(Uli(List(rawHtml("uli 1")),0),0),  Branch(List(Leaf(Oli(List(rawHtml("oli 2")),2), 2)),2), Leaf(Uli(List(rawHtml("uli 2")),0), 0) ), 0)  ))
+  val l7_tree = MdForest(List( Branch(List( Leaf(Uli(List(RawHtml("uli 1")),0),0),  Branch(List(Leaf(Oli(List(RawHtml("oli 2")),2), 2)),2), Leaf(Uli(List(RawHtml("uli 2")),0), 0) ), 0)  ))
 
   val l8_in =
     """* uli 1
@@ -329,7 +330,7 @@ trait LiFixtures {
       |* uli 2
     """.stripMargin
 
-  val l8_tree = MdForest(List( Branch(List( Leaf(Uli(List(rawHtml("uli 1")),0),0),  Branch(List(Leaf(Uli(List(rawHtml("uli 2deep 1")),2), 2)), 2), Leaf(Uli(List(rawHtml("uli 2")),0),0) ),0) ))
+  val l8_tree = MdForest(List( Branch(List( Leaf(Uli(List(RawHtml("uli 1")),0),0),  Branch(List(Leaf(Uli(List(RawHtml("uli 2deep 1")),2), 2)), 2), Leaf(Uli(List(RawHtml("uli 2")),0),0) ),0) ))
 
   val l9_in =
     """* uli 1
@@ -338,7 +339,7 @@ trait LiFixtures {
       |* uli 2
     """.stripMargin
 
-  val l9_tree = MdForest(List( Branch( List(Leaf(Uli(List(rawHtml("uli 1")),0),0),  Branch( List(Leaf(Uli(List(rawHtml("uli 2deep 1")),2),2), Branch(List(Leaf(Oli(List(rawHtml("oli 4deep 1")), 4),4)), 4)),2) , Leaf(Uli(List(rawHtml("uli 2")),0),0) ),0) ))
+  val l9_tree = MdForest(List( Branch( List(Leaf(Uli(List(RawHtml("uli 1")),0),0),  Branch( List(Leaf(Uli(List(RawHtml("uli 2deep 1")),2),2), Branch(List(Leaf(Oli(List(RawHtml("oli 4deep 1")), 4),4)), 4)),2) , Leaf(Uli(List(RawHtml("uli 2")),0),0) ),0) ))
 
   val l10_in =
     """* uli 1
@@ -349,7 +350,7 @@ trait LiFixtures {
       |* uli 2
     """.stripMargin
 
-  val l10_tree = MdForest(List( Branch( List(Leaf(Uli(List(rawHtml("uli 1")),0), 0),  Branch(List(Leaf(Uli(List(rawHtml("uli 2deep 1")),2),2), Branch(List( Leaf(Oli(List(rawHtml("oli 4deep 1")), 4), 4), Leaf(Oli(List(rawHtml("oli 4deep 2")), 4), 4),  Branch(List(Leaf(Oli(List(rawHtml("oli 6deep 1")),6),6)),6) ),4) ), 2), Leaf(Uli(List(rawHtml("uli 2")),0),0)),0) ))
+  val l10_tree = MdForest(List( Branch( List(Leaf(Uli(List(RawHtml("uli 1")),0), 0),  Branch(List(Leaf(Uli(List(RawHtml("uli 2deep 1")),2),2), Branch(List( Leaf(Oli(List(RawHtml("oli 4deep 1")), 4), 4), Leaf(Oli(List(RawHtml("oli 4deep 2")), 4), 4),  Branch(List(Leaf(Oli(List(RawHtml("oli 6deep 1")),6),6)),6) ),4) ), 2), Leaf(Uli(List(RawHtml("uli 2")),0),0)),0) ))
 
   val l11_in =
     """* uli 1
@@ -358,7 +359,7 @@ trait LiFixtures {
       |* uli 2
     """.stripMargin
 
-  val l11_tree = MdForest(List(Branch(List(Leaf(Uli(List(rawHtml("uli 1")),0),0), Branch(List(Leaf(Uli(List(rawHtml("uli 4deep 1")),4),4)),4), Branch(List(Leaf(Oli(List(rawHtml("oli 2deep 1")),2),2)),2), Leaf(Uli(List(rawHtml("uli 2")),0),0)), 0) ))
+  val l11_tree = MdForest(List(Branch(List(Leaf(Uli(List(RawHtml("uli 1")),0),0), Branch(List(Leaf(Uli(List(RawHtml("uli 4deep 1")),4),4)),4), Branch(List(Leaf(Oli(List(RawHtml("oli 2deep 1")),2),2)),2), Leaf(Uli(List(RawHtml("uli 2")),0),0)), 0) ))
 
   val l12_in =
     """1. order 1
@@ -366,10 +367,10 @@ trait LiFixtures {
       |  * nest2Unorderd 4
       |3. order 3
     """.stripMargin
-  Leaf(Oli(List(rawHtml("order 2")),0),0)
+  Leaf(Oli(List(RawHtml("order 2")),0),0)
 
-  val l12_val = List( Oli(List(rawHtml("order 1")), 0) , Oli(List(rawHtml("order 2")), 0) , Uli(List(rawHtml("nest2Unorderd 4")), 2)  , Oli(List(rawHtml("order 3")), 0) )
-  val l12_tree = MdForest( List( Branch(List( Leaf(Oli(List(rawHtml("order 1")),0),0), Leaf(Oli(List(rawHtml("order 2")),0),0), Branch(List( Leaf(Uli(List(rawHtml("nest2Unorderd 4")),2),2) ), 2), Leaf(Oli(List(rawHtml("order 3")),0),0)  ) ,0) ))
+  val l12_val = List( Oli(List(RawHtml("order 1")), 0) , Oli(List(RawHtml("order 2")), 0) , Uli(List(RawHtml("nest2Unorderd 4")), 2)  , Oli(List(RawHtml("order 3")), 0) )
+  val l12_tree = MdForest( List( Branch(List( Leaf(Oli(List(RawHtml("order 1")),0),0), Leaf(Oli(List(RawHtml("order 2")),0),0), Branch(List( Leaf(Uli(List(RawHtml("nest2Unorderd 4")),2),2) ), 2), Leaf(Oli(List(RawHtml("order 3")),0),0)  ) ,0) ))
 
   val ol_empty_in = ">          \n"
 }
@@ -407,6 +408,7 @@ trait ListParserTests extends Specification with MustMatchers with LiFixtures {
       case default => "oops" must_== ("fail")
     }
     r1 && r2
+
   }
 
   def e2 = {

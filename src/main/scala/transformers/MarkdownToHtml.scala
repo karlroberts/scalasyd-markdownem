@@ -109,7 +109,7 @@ object MarkdownToHtml {
           else renderRecursivly(mds, acc + closings.head, closings.tail) //run the closings down
 
         case m::ms => m match {
-          case rawHtml(v) => renderRecursivly(ms, acc + v, closings)
+          case RawHtml(v) => renderRecursivly(ms, acc + v, closings)
           case Br => renderRecursivly(ms, acc + s"<br/>$sep", closings)
           case Paragraph => pp match {
             case false => {pp = true; renderRecursivly(ms, acc + s"$sep<p>$sep", closings)} // no previous so open paragraph

@@ -47,36 +47,6 @@ object markdownParser {
 
   }
 
-
-  def markdownDocumentParser2: Parser[MarkdownDoc] = {
-    Parser(input => {
-      import Parser._
-      val parsed = markdownParser.run(input)
-      //mutabl ref to imutable map ... may mak emutable as internal use only?
-      var symtab = Map[String, Uri]()
-
-
-      //todo maybe make parseAll take a function to do stuff if Link rhather than walk the list twice, either fire a sideefect or return a state/symtab object as well.
-      // warning side-effect on symtab
-      parsed match {
-        case ParseKo(m) => ParseKo(m)
-        case ParseOk(rest, mdlist) => {
-          // look at the list and build up the symtable if we need extra knowlege from the parse.
-          mdlist foreach
-            {
-              case m: RefLinkUri => symtab = symtab + (m.refKey -> m.uri)
-              case _ => ;
-            }
-
-          ParseOk("", MDDoc(mdlist, symtab))
-        }
-      }
-
-    })
-
-  }
-
-
   def markdownParser: Parser[List[Markdown]] = for {
     mds <- list1(markdownASTParser)
   } yield mds
@@ -148,7 +118,7 @@ object markdownParser {
 
   /**
     * runs simpleBlocquoteParser as many times as it can to parse all the consecutive lines of '> text'
-    * joins up the results with '\n' as a single string and re-wraps in a single blockqote
+    * joins up the results with 'Br' as a single string and re-wraps in a single blockqote
     */
   def blockquoteParser: Parser[Markdown] = {
     Parser(input => {
@@ -156,8 +126,10 @@ object markdownParser {
       parsed match {
         case ParseKo(m) => ParseKo(s"Not a blockquote, expected '> text', error message: $m")
         case ParseOk(i, bqs) => {
-          val bqContent = bqs flatMap (  _.value :+ Br  )
-          ParseOk(i, Blockquote(bqContent))
+          val bqContent = bqs map (  _.value  )
+          // intersperse the the lists with Br's use tail to chop of the unneeded first BR added
+          val bqContWithSep = bqContent.foldRight(List[Markdown]())((md, acc ) =>  Br :: md ++ acc).tail
+          ParseOk(i, Blockquote(bqContWithSep))
         }
       }
     })
@@ -410,7 +382,7 @@ object markdownParser {
   /** raw HTML is just an inline String that can be printed to be consideredHTML. Just read unless we encounter an inline elemet or end of line*/
   def rawHtmlParser: Parser[Markdown] = for {
     theHtml <- list1(isNotIn(inLineStartTokens))
-  } yield rawHtml(theHtml.mkString)
+  } yield RawHtml(theHtml.mkString)
 
   def brParser: Parser[Markdown] = for {
     _ <- space

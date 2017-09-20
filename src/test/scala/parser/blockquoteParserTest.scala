@@ -1,6 +1,6 @@
 package parser
 
-import ast.{Blockquote, rawHtml, Bold, Br}
+import ast.{Blockquote, RawHtml, Bold, Br}
 import org.specs2._
 import org.specs2.matcher.MustMatchers
 
@@ -64,13 +64,13 @@ trait BQTests extends Specification with MustMatchers with BQFixtures {
 
 trait BQFixtures {
   val h1_in = "> This is a simple **bq** line"
-  var h1_val = Blockquote(List(rawHtml("This is a simple "), Bold(List(rawHtml("bq"))),rawHtml(" line")))
+  var h1_val = Blockquote(List(RawHtml("This is a simple "), Bold(List(RawHtml("bq"))),RawHtml(" line")))
 
   val h1_nl_in = "> This is a simple **bq** line with a newline char\n"
-  val h1_nl_val = Blockquote(List(rawHtml("This is a simple "), Bold(List(rawHtml("bq"))), rawHtml(" line with a newline char")))
+  val h1_nl_val = Blockquote(List(RawHtml("This is a simple "), Bold(List(RawHtml("bq"))), RawHtml(" line with a newline char")))
 
   val h1_ns_in = ">This is a simple **bq** line with no spaces after the > prefix"
-  val h1_ns_val = Blockquote(List(rawHtml("This is a simple "),Bold(List(rawHtml("bq"))),rawHtml(" line with no spaces after the > prefix")))
+  val h1_ns_val = Blockquote(List(RawHtml("This is a simple "),Bold(List(RawHtml("bq"))),RawHtml(" line with no spaces after the > prefix")))
 
   val h1_newline_only_in = "#          \n"
   val h1_newline_only_val = Blockquote(List(Br))
@@ -81,6 +81,6 @@ trait BQFixtures {
     """>simple bq line
       |> another bq line
       |> foofofof""".stripMargin
-  val bq_multiline_val = Blockquote(List(rawHtml("simple bq line"),rawHtml("another bq line"), rawHtml("foofofof")))
+  val bq_multiline_val = Blockquote(List(RawHtml("simple bq line"),Br,RawHtml("another bq line"), Br, RawHtml("foofofof")))
 
 }

@@ -33,8 +33,10 @@ trait BQRenderRenderTests extends Specification with MustMatchers with BQRenderF
 
 
 trait BQRenderFixtures {
+  val sep = sys.props("line.separator")
+
   val h1_in = "> This is a simple **bq** line"
-  var h1_val = "<blockquote>This is a simple <strong>bq</strong> line</blockquote>"
+  var h1_val = s"<blockquote>This is a simple <strong>bq</strong> line</blockquote>$sep"
 
   val h1_nl_in = "> This is a simple **bq** line with a newline char\n"
 

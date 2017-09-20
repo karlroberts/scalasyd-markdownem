@@ -106,13 +106,13 @@ trait HeaderTests extends Specification with MustMatchers with HeaderFixtures {
 trait HeaderFixtures {
 
   val h1_in = "# This is a simple **h1** line"
-  var h1_val = H1(List(rawHtml("This is a simple "),Bold(List(rawHtml("h1"))), rawHtml(" line")))
+  var h1_val = H1(List(RawHtml("This is a simple "),Bold(List(RawHtml("h1"))), RawHtml(" line")))
 
   val h1_nl_in = "# This is a simple **h1** line with a newline char\n"
-  val h1_nl_val = H1(List(rawHtml("This is a simple "),Bold(List(rawHtml("h1"))), rawHtml(" line with a newline char")))
+  val h1_nl_val = H1(List(RawHtml("This is a simple "),Bold(List(RawHtml("h1"))), RawHtml(" line with a newline char")))
 
   val h1_ns_in = "#This is a simple **h1** line with no spaces after the # prefix"
-  val h1_ns_val = H1(List(rawHtml("This is a simple "),Bold(List(rawHtml("h1"))), rawHtml(" line with no spaces after the # prefix")))
+  val h1_ns_val = H1(List(RawHtml("This is a simple "),Bold(List(RawHtml("h1"))), RawHtml(" line with no spaces after the # prefix")))
 
   val h1_newline_only_in = "#          \n"
   val h1_newline_only_val = H1(List(Br))
@@ -120,21 +120,21 @@ trait HeaderFixtures {
   val h1_empty_in = "#                "
 
   val h2_in = "## This is a simple **h2** line"
-  var h2_val = H2(List(rawHtml("This is a simple "),Bold(List(rawHtml("h2"))), rawHtml(" line")))
+  var h2_val = H2(List(RawHtml("This is a simple "),Bold(List(RawHtml("h2"))), RawHtml(" line")))
 
   val h3_in = "### This is a simple **h3** line"
-  var h3_val = H3(List(rawHtml("This is a simple "),Bold(List(rawHtml("h3"))), rawHtml(" line")))
+  var h3_val = H3(List(RawHtml("This is a simple "),Bold(List(RawHtml("h3"))), RawHtml(" line")))
 
   val h4_in = "#### This is a simple **h4** line"
-  var h4_val = H4(List(rawHtml("This is a simple "),Bold(List(rawHtml("h4"))), rawHtml(" line")))
+  var h4_val = H4(List(RawHtml("This is a simple "),Bold(List(RawHtml("h4"))), RawHtml(" line")))
 
   val h5_in = "##### This is a simple **h5** line"
-  var h5_val = H5(List(rawHtml("This is a simple "),Bold(List(rawHtml("h5"))), rawHtml(" line")))
+  var h5_val = H5(List(RawHtml("This is a simple "),Bold(List(RawHtml("h5"))), RawHtml(" line")))
 
   val h6_in = "###### This is a simple **h6** line"
-  var h6_val = H6(List(rawHtml("This is a simple "),Bold(List(rawHtml("h6"))), rawHtml(" line")))
+  var h6_val = H6(List(RawHtml("This is a simple "),Bold(List(RawHtml("h6"))), RawHtml(" line")))
 
   val h7_in = "####### This is a simple **h7** line"
-  var h7_val = H7(List(rawHtml("This is a simple "),Bold(List(rawHtml("h7"))), rawHtml(" line")))
+  var h7_val = H7(List(RawHtml("This is a simple "),Bold(List(RawHtml("h7"))), RawHtml(" line")))
 
 }

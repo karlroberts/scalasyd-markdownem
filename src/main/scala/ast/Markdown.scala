@@ -21,13 +21,13 @@ case object empty extends Markdown
 
 
 // an escape character
-case class escape(value: Char) extends Markdown
+case class Escape(value: Char) extends Markdown
 
 //if we have raw HTML we just output it, no need to parse it for content
-case class rawHtml(value: Html) extends Markdown {
+case class RawHtml(value: Html) extends Markdown {
   // hack to allow refLink parser to use value of link text as ref key if one wasnt provided.
   // should use Cast Show typeclass and have an instance for each Markdown
-  override def toString: String = value
+//  override def toString: String = value
 }
 
 //just dumped a sting into here, dont know yet if it contains any markdown so inline needs to be parsed.

@@ -74,22 +74,22 @@ trait UrlTests extends Specification with MustMatchers with UrlFixtures {
 
 trait UrlFixtures {
   val u1_in = "[simple url txt](http://foo.bar.com)"
-  val u1_val = Link(rawHtml("simple url txt"), Uri("http://foo.bar.com"), None)
+  val u1_val = Link(RawHtml("simple url txt"), Uri("http://foo.bar.com"), None)
 
   val u2_in = "[simple url txt](http://foo.bar.com mytitle)"
-  val u2_val = Link(rawHtml("simple url txt"), Uri("http://foo.bar.com"), Some("mytitle"))
+  val u2_val = Link(RawHtml("simple url txt"), Uri("http://foo.bar.com"), Some("mytitle"))
 
   val u3_in = "[**OMG this is Bold**](http://foo.bar.com)"
-  val u3_val = Link(Bold(List(rawHtml("OMG this is Bold"))), Uri("http://foo.bar.com"), None)
+  val u3_val = Link(Bold(List(RawHtml("OMG this is Bold"))), Uri("http://foo.bar.com"), None)
 
   val u4_in = "[__OMG this is Bold__](http://foo.bar.com)"
-  val u4_val = Link(Bold(List(rawHtml("OMG this is Bold"))), Uri("http://foo.bar.com"), None)
+  val u4_val = Link(Bold(List(RawHtml("OMG this is Bold"))), Uri("http://foo.bar.com"), None)
 
   val rl1_in = "[simple ref link text][case insensitive ref link key]"
-  val rl1_val = RefLink(rawHtml("simple ref link text"), "case insensitive ref link key")
+  val rl1_val = RefLink(RawHtml("simple ref link text"), "case insensitive ref link key")
 
   val rl2_in = "[~~OMG this is crossed out~~][case insensitive ref link key]"
-  val rl2_val = RefLink(Strikethrough(List(rawHtml("OMG this is crossed out"))), "case insensitive ref link key")
+  val rl2_val = RefLink(Strikethrough(List(RawHtml("OMG this is crossed out"))), "case insensitive ref link key")
 
   val u1_empty_in = ""
 }

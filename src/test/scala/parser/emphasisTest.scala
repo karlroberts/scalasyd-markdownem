@@ -104,35 +104,35 @@ trait EmphasisTests extends Specification with MustMatchers with BoldFixtures {
 
 trait BoldFixtures {
   val b1_in = "**this is bold**"
-  var b1_val = Bold(List(rawHtml("this is bold")))
+  var b1_val = Bold(List(RawHtml("this is bold")))
 
   val b1_b_in = "**this _is_ bold**"
-  var b1_b_val = Bold(List(rawHtml("this "), Italic(List(rawHtml("is"))), rawHtml(" bold")))
+  var b1_b_val = Bold(List(RawHtml("this "), Italic(List(RawHtml("is"))), RawHtml(" bold")))
 
   val b2_in = "__this is bold__"
-  var b2_val = Bold(List(rawHtml("this is bold")))
+  var b2_val = Bold(List(RawHtml("this is bold")))
 
   val b2_b_in = "__this ~~is~~ bold__"
-  var b2_b_val = Bold(List(rawHtml("this "), Strikethrough(List(rawHtml("is"))), rawHtml(" bold")))
+  var b2_b_val = Bold(List(RawHtml("this "), Strikethrough(List(RawHtml("is"))), RawHtml(" bold")))
 
 
   val i1_in = "_this is italic_"
-  var i1_val = Italic(List(rawHtml("this is italic")))
+  var i1_val = Italic(List(RawHtml("this is italic")))
 
   val i1_b_in = "_this **is** italic_"
-  var i1_b_val = Italic(List(rawHtml("this "), Bold(List(rawHtml("is"))), rawHtml(" italic")))
+  var i1_b_val = Italic(List(RawHtml("this "), Bold(List(RawHtml("is"))), RawHtml(" italic")))
 
   val i2_in = "_this is italic_"
-  var i2_val = Italic(List(rawHtml("this is italic")))
+  var i2_val = Italic(List(RawHtml("this is italic")))
 
   val i2_b_in = "_this __is__ italic_"
-  var i2_b_val = Italic(List(rawHtml("this "), Bold(List(rawHtml("is"))), rawHtml(" italic")))
+  var i2_b_val = Italic(List(RawHtml("this "), Bold(List(RawHtml("is"))), RawHtml(" italic")))
 
   val st1_in = "~~this is strikthrough~~"
-  var st1_val = Strikethrough(List(rawHtml("this is strikthrough")))
+  var st1_val = Strikethrough(List(RawHtml("this is strikthrough")))
 
   val st1_b_in = "~~this _is_ strikthrough~~"
-  var st1_b_val = Strikethrough(List(rawHtml("this "), Italic(List(rawHtml("is"))), rawHtml(" strikthrough")))
+  var st1_b_val = Strikethrough(List(RawHtml("this "), Italic(List(RawHtml("is"))), RawHtml(" strikthrough")))
 
 
   val h1_empty_in = "#          \n"
