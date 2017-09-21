@@ -1,7 +1,7 @@
-// This is an application with a main method
 enablePlugins(ScalaJSPlugin)
 
-// change this to true if you want the T
+// This is an application with a main method
+// change this to true if you want the The TestApp main class to be a JS "Application"
 scalaJSUseMainModuleInitializer := true
 
 name := "Markdownem"

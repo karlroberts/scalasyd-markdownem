@@ -1,6 +1,6 @@
 package transformers
 
-import scala.scalajs.js.annotation.JSExportTopLevel
+//import scala.scalajs.js.annotation.JSExportTopLevel
 
 import ast.Li.{Oli, Uli}
 import ast.{Markdown, MarkdownDoc}
@@ -80,7 +80,7 @@ object MarkdownToHtml {
   // Use instance to add MarkdownToHtml to the Transformer typeclass
   implicit val m2hTransformer: Transformer.Aux[MarkdownToHtml,String, parser.Html] = instance( (t, in) => t.r(t.p(in)) )
 
-  @JSExportTopLevel("mdmagic")
+//  @JSExportTopLevel("mdmagic")
   def transform(md: String): String = simple ---* md
 
   import parser.markdownParser.markdownDocumentParser
